@@ -47,14 +47,21 @@ while ($ComponentRow = $ComponentTableResult->fetch_assoc()) {
     }
 
     // Get Data to component_value_table
-    $ComponentValueNameQuery = "SELECT component_value, component_id FROM component_value_table WHERE component_id = '$componentId'";
+    $ComponentValueNameQuery = "SELECT component_value, component_id, component_value_id FROM component_value_table WHERE component_id = '$componentId'";
     $ComponentValueResult = $con->query($ComponentValueNameQuery);
 
     $componentTotals = array();
     while ($componentValueRow = $ComponentValueResult->fetch_assoc()) {
-        $componentDataValue[$componentId][] = $componentValueRow['component_value'];
         $componentId = $componentValueRow['component_id'];
         $componentValue = $componentValueRow['component_value'];
+        $componentValueId = $componentValueRow['component_value_id'];
+    
+        // Store component values in the array
+        $componentDataValue[$componentId][] = array(
+            'component_value_id' => $componentValueId,
+            'component_value' => $componentValue
+        );
+    
         // Check if the component_id is already a key in the array
         if (array_key_exists($componentId, $componentTotals)) {
             // Add the current value to the existing total
@@ -64,6 +71,7 @@ while ($ComponentRow = $ComponentTableResult->fetch_assoc()) {
             $componentTotals[$componentId] = $componentValue;
         }
     }
+
     foreach ($componentTotals as $currentComponentId => $total) {
 
         $ComponentTotalArray[] = $total;
@@ -181,7 +189,10 @@ while ($ComponentRow = $ComponentTableResult->fetch_assoc()) {
                                     <?php
                                         for ($i = 0; $i < count($componentNames); $i++) {
                                             $colspan = ($i === 2 || $i === 3) ? 3 : 8;
-                                            echo "<th colspan='{$colspan}' class='border border-start-0'>" . $componentNames[$i] . "</th>";
+                                            echo "<th colspan='{$colspan}' id='updateComponent' class='border border-start-0 updateComponent' data-bs-toggle='modal' data-bs-target='#updateComponentModal' data-grading-session-id='{$GradingSessionIdSetted}'>" 
+                                                . $componentNames[$i] .
+                                                
+                                                "</th>";
                                         }
                                     ?>
                                     <th rowspan="2" class='border border-start-0'>Grade</th>
@@ -213,34 +224,36 @@ while ($ComponentRow = $ComponentTableResult->fetch_assoc()) {
                                         $OverAllSum = 0;
                                         $noneZero = 0;
                                         foreach ($componentDataValue as $componentId => $componentValueValues) {
-                                            foreach ($componentValueValues as $component_value_id => $value) {
-                                                $uniqueId = "value_{$component_value_id}_{$componentId}";
-        echo "<th class='' id='{$uniqueId}'>{$value}</th>";
-                                                $totalSum += $value;
-                                                if($value != 0){
+                                            foreach ($componentValueValues as $value) {
+                                                $uniqueId = "value_{$value['component_value_id']}_{$componentId}";
+                                                // Adding contenteditable attribute
+                                                echo "<th class='componentValueInput' id='{$uniqueId}' contenteditable='true' data-component-value-id='{$value['component_value_id']}' data-original-value='{$value['component_value']}' data-component-id='{$componentId}'>{$value['component_value']}</th>";
+                                                $totalSum += $value['component_value'];
+                                                if ($value['component_value'] != 0) {
                                                     $noneZero++;
                                                 }
+                                            }                                            
+                                            if ($indexValue != 2 && $indexValue != 3) {
+                                                echo "<th class=''>" . $totalSum . "</th>";
                                             }
-                                            if($indexValue != 2 && $indexValue != 3){
-                                                echo "<th class=''>". $totalSum ."</th>";
-                                            }
-                                            
+                                        
                                             $multiplier = 100 - $GradingSessionBase;
-
+                                        
                                             $calculatedValue = ($totalSum == 0) ? $GradingSessionBase : ($totalSum / $totalSum) * $multiplier + $GradingSessionBase;
-                                            echo "<th class=''>". number_format($calculatedValue, 2, '.', '') ."</th>";
-                                            // echo "<th class=''>{$ComponentTotalArray[$indexValue]}</th>";
+                                            echo "<th class=''>" . number_format($calculatedValue, 2, '.', '') . "</th>";
+                                        
                                             $OverAllSum += $componentPercentages[$indexValue];
                                             echo "<th class='border-end'>{$componentPercentages[$indexValue]}</th>";
-
+                                        
                                             $indexValue++;
                                             $totalSum = 0;
-                                        }
+                                        }  
                                         echo "<th class=''>".number_format($OverAllSum, 2, '.', '')."</th>";
                                         echo "<th class=''>{$GradingSessionPercentage}%</th>";
                                         echo "<th class='border-end'>Passed</th>";
                                     ?>
                                 </tr>
+
                             </thead>
                         </table>
                     </div>
@@ -249,106 +262,22 @@ while ($ComponentRow = $ComponentTableResult->fetch_assoc()) {
         </section>
     </div>
 
-<!-- Add Student to Course Modal -->
-<div class="modal fade" id="addStudentCourseModal" tabindex="-1" aria-labelledby="addStudentCourseModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="addStudentCourseModalLabel">Add Student</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form method="post">
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="addStudentFirstName" class="form-label">Student First Name</label>
-                    <input type="text" class="form-control" name="addStudentFirstName" id="addStudentFirstName" placeholder="First Name">
-                </div>
-                <div class="mb-3">
-                    <label for="addStudentMiddleName" class="form-label">Student Middle Name</label>
-                    <input type="text" class="form-control" name="addStudentMiddleName" id="addStudentMiddleName" placeholder="Middle Name">
-                </div>
-                <div class="mb-3">
-                    <label for="addStudentLastName" class="form-label">Student Last Name</label>
-                    <input type="text" class="form-control" name="addStudentLastName" id="addStudentLastName" placeholder="Last Name">
-                </div>
-                <div class="mb-3">
-                    <label for="addStudentNumber" class="form-label">Student Number</label>
-                    <input type="text" class="form-control" name="addStudentNumber" id="addStudentNumber" placeholder="Student Number">
-                </div>
-                <div class="mb-3">
-                    <label for="addStudentStatus" class="form-label">Student Status</label>
-                    <select name="addStudentStatus" id="addStudentStatus" class="form-select">
-                        <option value="Regular">Regular Student</option>
-                        <option value="Irregular">Irregular Student</option>
-                    </select>
-                </div>
-                <input type="hidden" name="addCourseSubjectId" id="addCourseSubjectId" value="<?php echo $CourseSubjectIdSetted ?>">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="addStudentButton">Add</button>
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
-
-<!-- Add Course Subject Modal -->
-<div class="modal fade" id="addSessionModal" tabindex="-1" aria-labelledby="addSessionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="addSessionModalLabel">Add Session</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form method="post">
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="addSessionName" class="form-label">Session Name</label>
-                    <input type="text" class="form-control" name="addSessionName" id="addSessionName" placeholder="Example: Prelim">
-                </div>
-                <div class="mb-3">
-                    <label for="addSessionPercent" class="form-label">Session Percentage</label>
-                    <input type="text" class="form-control" name="addSessionPercent" id="addSessionPercent" placeholder="Example: 30">
-                </div>
-                <input type="hidden" name="addCourseSubjectId" id="addCourseSubjectId" value="<?php echo $CourseSubjectIdSetted ?>">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="addSessionButton">Add</button>
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
-
-<!-- Update Course Subject Modal -->
-<div class="modal fade" id="updateSessionModal" tabindex="-1" aria-labelledby="updateSessionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="updateSessionModalLabel">Update Session</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form method="post" id="updateSessionForm">
-            <div class="modal-body">
-                <input type="hidden" name="updateCourseSubjectId" id="updateCourseSubjectId" value="<?php echo $CourseSubjectIdSetted ?>">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="updateSessionButton">Save Changes</button>
-            </div>
-        </form>
-        </div>
-    </div>
-</div>
+    <?php 
+        require "./Modals/upload_grade_addStudent.php"; // For Add Student to Course/Subject
+        require "./Modals/upload_grade_addSession.php"; // For Add Manual Session (Currently But Display)
+        require "./Modals/upload_grade_updateSession.php"; // For Update Session 
+        require "./Modals/upload_grade_updateComponent.php"; // For Update Session 
+    ?>
 <script>
 <?php
 // Assuming $ComponentTotalArray is defined in your PHP code
 echo "var componentTotalArray = " . json_encode($ComponentTotalArray) . ";";
+echo "var UserAccountId = " . json_encode($UserAccountId) . ";";
+echo "var componentPercentages = " . json_encode($componentPercentages) . ";";
+
+// This is Save at Session
 echo "var CourseSubjectIdSetted = " . json_encode($CourseSubjectIdSetted) . ";";
+echo "var GradingSessionIdSetted = " . json_encode($GradingSessionIdSetted) . ";";
 ?>
 </script>
 <!-- Bootstrap -->
@@ -361,6 +290,7 @@ echo "var CourseSubjectIdSetted = " . json_encode($CourseSubjectIdSetted) . ";";
 <script src="./node_modules/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="./JS/StudentAdd.js"></script>
 <script src="./JS/GradingSessionEdit.js"></script>
+<script src="./JS/GradingComponentEdit.js"></script>
 <script src="./JS/SessionTabs.js"></script>
 
 <!-- UnComment If Needed Manual Adding Session -->
@@ -427,7 +357,7 @@ const createdCell = function(cell, cellData, rowData) {
             success: function (response) {
                 const data = JSON.parse(response);
                 if (data.status === 'success') {
-                    table.ajax.url("./tables/StudentGradeFetch.php?UserAccountId=<?php echo $UserAccountId; ?>&currentSubjectId=<?php echo $CourseSubjectIdSetted ?>&currentSelectedSessionId=" + <?php echo $GradingSessionIdSetted ?>).load();
+                    table.ajax.url("./tables/StudentGradeFetch.php?UserAccountId=" + UserAccountId + "&currentSubjectId="+ CourseSubjectIdSetted + "&currentSelectedSessionId=" + GradingSessionIdSetted).load();
                 } else {
                     console.log("Unsuccess");
                 }
@@ -461,7 +391,7 @@ var table = $('#uploadGradeTable').DataTable({
     "serverSide": true,
     "scrollX": true,
     "ajax": {
-        "url": "./tables/StudentGradeFetch.php?UserAccountId=<?php echo $UserAccountId; ?>&currentSubjectId=<?php echo $CourseSubjectIdSetted ?>&currentSelectedSessionId=" + <?php echo $GradingSessionIdSetted ?>,
+        "url": "./tables/StudentGradeFetch.php?UserAccountId=" + UserAccountId + "&currentSubjectId=" + CourseSubjectIdSetted + "&currentSelectedSessionId=" + GradingSessionIdSetted ,
         "type": "GET"
     },
     "columnDefs": [
@@ -504,7 +434,7 @@ var table = $('#uploadGradeTable').DataTable({
             "targets": 9,
             "data": 2,
             "render": function (data, type, row, meta) {
-                var formatNumber = parseFloat(calculateFormattedValue(data, 2, 6, 0)) * (<?php echo $componentPercentages[0] ?> / 100);
+                var formatNumber = parseFloat(calculateFormattedValue(data, 2, 6, 0)) * (componentPercentages[0] / 100);
 
                 applyCellStylingWithBothSideBorders(meta.row, 9);
 
@@ -547,7 +477,7 @@ var table = $('#uploadGradeTable').DataTable({
             "targets": 17,
             "data": 2,
             "render": function (data, type, row, meta) {
-                var formatNumber = parseFloat(calculateFormattedValue(data, 7, 11, 1)) * (<?php echo $componentPercentages[1] ?> / 100);
+                var formatNumber = parseFloat(calculateFormattedValue(data, 7, 11, 1)) * (componentPercentages[1] / 100);
 
                 applyCellStylingWithBothSideBorders(meta.row, 17);
 
@@ -579,7 +509,7 @@ var table = $('#uploadGradeTable').DataTable({
             "targets": 20,
             "data": 2,
             "render": function (data, type, row, meta) {
-                var formatNumber = parseFloat(calculateFormattedValue(data, 12, 12, 2)) * (<?php echo $componentPercentages[2] ?> / 100);
+                var formatNumber = parseFloat(calculateFormattedValue(data, 12, 12, 2)) * (componentPercentages[2] / 100);
 
                 applyCellStylingWithBothSideBorders(meta.row, 20);
 
@@ -611,7 +541,7 @@ var table = $('#uploadGradeTable').DataTable({
             "targets": 23,
             "data": 2,
             "render": function (data, type, row, meta) {
-                var formatNumber = parseFloat(calculateFormattedValue(data, 13, 13, 3)) * (<?php echo $componentPercentages[3] ?> / 100);
+                var formatNumber = parseFloat(calculateFormattedValue(data, 13, 13, 3)) * (componentPercentages[3] / 100);
 
                 applyCellStylingWithBothSideBorders(meta.row, 23);
 
@@ -692,7 +622,6 @@ function renderGrade(data, type, row, meta, GradeIndex) {
 
 function calculateSessionAverage(data) {
     var grades = JSON.parse(data);
-    var componentPercentages = <?php echo json_encode($componentPercentages); ?>;
     
     var FirstComponent = calculateComponentValue(grades, 2, 6, 0) * (componentPercentages[0] / 100);
     var SecondComponent = calculateComponentValue(grades, 7, 11, 1) * (componentPercentages[1] / 100);
@@ -764,6 +693,99 @@ function applyCellStylingWithBothSideBorders(row, col) {
         'font-weight': '700'
     });
 }
+
+
+$(document).ready(function () {
+
+$('.componentValueInput').on('input', function () {
+    // Get the input value and remove non-numeric characters
+    var inputValue = $(this).val();
+    var sanitizedValue = inputValue.replace(/\D/g, '');
+
+    // Update the input with the sanitized value
+    $(this).val(sanitizedValue);
+});
+
+
+$('.componentValueInput').on('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the default behavior of Enter key
+        handleEnterKeyOrBlur($(this));
+    }
+});
+
+$('.componentValueInput').on('blur', function () {
+    handleEnterKeyOrBlur($(this));
+});
+
+function handleEnterKeyOrBlur(element) {
+    // Get the current value of the input
+    var currentValue = element.text();
+
+    // Get the original value stored as a data attribute
+    var originalValue = element.data('original-value');
+
+    // Check if the value has changed
+    if (currentValue != originalValue) {
+        // Trigger an AJAX request only if there are changes
+        var component_value_id = element.data('component-value-id');
+        var componentId = element.data('component-id');
+        var value = currentValue;
+
+        $.ajax({
+            type: 'POST',
+            url: './ajaxRequest/GradingComponentValueUpdate.php',
+            data: {
+                component_value_id: component_value_id,
+                componentId: componentId,
+                value: value
+            },
+            success: function (response) {
+                if (response === "success") {
+                    // If the update is successful, reload the page
+                    window.location.reload();
+                } else {
+                    // If there's an error, display a SweetAlert with the error message
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'error',
+                        title: response, // Display the response from the server
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                        animation: true,
+                        customClass: {
+                            timerProgressBar: 'customProgressBar',
+                        },
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle AJAX errors here
+                console.error('AJAX Error:', error);
+
+                // Display a SweetAlert error message for AJAX failure
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'AJAX request failed',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    animation: true,
+                    customClass: {
+                        timerProgressBar: 'customeProgressBar',
+                    },
+                });
+            }
+        });
+    }
+}
+});
+
+
 </script>
 </body>
 </html>
