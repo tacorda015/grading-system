@@ -16,6 +16,7 @@ $table = <<<EOT
         s.student_full_name,
         s.student_status,
         s.student_number,
+        s.student_gender,
         c.course_subject_name
     FROM
         course_subject_table c
@@ -34,6 +35,7 @@ $columns = array(
     array('db' => 'student_number', 'dt' => 2),
     array('db' => 'course_subject_name', 'dt' => 3),
     array('db' => 'student_status', 'dt' => 4),
+    array('db' => 'student_gender', 'dt' => 5),
 );
 
 require 'ssp.php';
@@ -41,5 +43,4 @@ require 'ssp.php';
 echo json_encode(
     SSP::simple($_GET, $dbDetails, $table, $primaryKey, $columns)
 );
-
 ?>

@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $addStudentStatus = $_POST['addStudentStatus'];
     $addCourseSubjectId = $_POST['addCourseSubjectId'];
     $addStudentNumber = $_POST['addStudentNumber'];
+    $addStudentGender = $_POST['addStudentGender'];
 
     if (empty($addStudentFirstName) || empty($addStudentLastName) || empty($addStudentNumber)) {
         echo json_encode(['status' => 'error', 'message' => 'All fields need to be filled up']);
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $addStudentFullName = $addStudentFirstName . ' ' . $middleNamePart . ' ' . $addStudentLastName;
 
 
-    $insertStudent = "INSERT INTO student_table (student_full_name, student_fName, student_mName, student_lName, student_status, student_number, course_subject_id) VALUES ('$addStudentFullName', '$addStudentFirstName', '$addStudentMiddleName', '$addStudentLastName', '$addStudentStatus', '$addStudentNumber', '$addCourseSubjectId')";
+    $insertStudent = "INSERT INTO student_table (student_full_name, student_fName, student_mName, student_lName, student_gender, student_status, student_number, course_subject_id) VALUES ('$addStudentFullName', '$addStudentFirstName', '$addStudentMiddleName', '$addStudentLastName', '$addStudentGender', '$addStudentStatus', '$addStudentNumber', '$addCourseSubjectId')";
 
     $insertResult = $con->query($insertStudent);
 

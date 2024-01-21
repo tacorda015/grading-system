@@ -76,7 +76,7 @@ $UserAccountId = $getUserData['account_id'];
                                 <th>Student Name</th>
                                 <th>Student Number</th>
                                 <th>Course/Subject</th>
-                                <th>Status</th>
+                                <th>Gender</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -112,12 +112,25 @@ $UserAccountId = $getUserData['account_id'];
                     <label for="addStudentNumber" class="form-label">Student Number</label>
                     <input type="text" class="form-control" name="addStudentNumber" id="addStudentNumber" placeholder="Student Number">
                 </div>
-                <div class="mb-3">
-                    <label for="addStudentStatus" class="form-label">Student Status</label>
-                    <select name="addStudentStatus" id="addStudentStatus" class="form-select">
-                        <option value="Regular">Regular Student</option>
-                        <option value="Irregular">Irregular Student</option>
-                    </select>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="addStudentStatus" class="form-label">Student Status</label>
+                            <select name="addStudentStatus" id="addStudentStatus" class="form-select">
+                                <option value="Regular">Regular Student</option>
+                                <option value="Irregular">Irregular Student</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="addStudentGender" class="form-label">Student Gender</label>
+                            <select name="addStudentGender" id="addStudentGender" class="form-select">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="addCourseSubjectId" class="form-label">Course/Subject</label>
@@ -175,12 +188,25 @@ $UserAccountId = $getUserData['account_id'];
                     <input type="text" class="form-control" name="editStudentNumber" id="editStudentNumber" placeholder="Student Number">
                 </div>
                 <input type="hidden" name="editStudentId" id="editStudentId">
-                <div class="mb-3">
-                    <label for="editStudentStatus" class="form-label">Student Status</label>
-                    <select name="editStudentStatus" id="editStudentStatus" class="form-select">
-                        <option value="Regular">Regular Student</option>
-                        <option value="Irregular">Irregular Student</option>
-                    </select>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="editStudentStatus" class="form-label">Student Status</label>
+                            <select name="editStudentStatus" id="editStudentStatus" class="form-select">
+                                <option value="Regular">Regular Student</option>
+                                <option value="Irregular">Irregular Student</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="editStudentGender" class="form-label">Student Gender</label>
+                            <select name="editStudentGender" id="editStudentGender" class="form-select">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="editCourseSubjectId" class="form-label">Course/Subject</label>
@@ -227,7 +253,7 @@ var table = $('#studentListTable').DataTable( {
     "serverSide": true,
     "ajax": {
         "url": "./tables/StudentListFetch.php?UserAccountId=<?php echo $UserAccountId; ?>",
-        "type": "GET"
+        "type": "GET",
     },
     "columnDefs": [
         {
@@ -235,6 +261,14 @@ var table = $('#studentListTable').DataTable( {
             "data": null,
             "render": function (data, type, row, meta) {
                 return meta.row + 1; // meta.row is zero-based, so add 1 for the actual row number
+            }
+        },
+        {
+            "targets": 4, // index of the gender column
+            "data": "5",
+            "render": function (data, type, row, meta) {
+                // Assuming "M" is for Male and "F" is for Female
+                return data === 'M' ? 'Male' : 'Female';
             }
         },
         // {
@@ -248,6 +282,19 @@ var table = $('#studentListTable').DataTable( {
             "data": null,
             "defaultContent": "<button class='btn btn-primary btn-xs tblEdit'>Edit </button> <button class='btn btn-danger btn-xs tblDelete'>Delete</button>" 
         }
+    ],
+    "initComplete": function () {
+    // Add sorting dropdown for student_gender
+    var select = $('<label for="genderFilter" class="mx-2">Gender Filter:</label><select id="genderFilter" class="form-select"><option value="">All Genders</option><option value="M">Male</option><option value="F">Female</option></select>')
+        .appendTo('#studentListTable_length')
+        .on('change', function () {
+            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+            table.column(4).search(val, true, false, true).draw();
+        });
+},
+
+    "order": [
+        [1, 'asc'] // Default sorting by student_full_name in ascending order
     ]
 });
 

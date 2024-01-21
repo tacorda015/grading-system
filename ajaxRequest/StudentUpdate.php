@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $editStudentStatus = $_POST['editStudentStatus'];
     $editCourseSubjectId = $_POST['editCourseSubjectId'];
     $editStudentId = $_POST['editStudentId'];
+    $editStudentGender = $_POST['editStudentGender'];
 
     if (empty($editStudentFirstName) || empty($editStudentLastName) || empty($editStudentNumber) || empty($editStudentStatus) || empty($editCourseSubjectId)) {
         echo json_encode(['status' => 'error', 'message' => 'All fields need to be filled up']);
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $middleNamePart = !empty($editStudentMiddleName) ? substr($editStudentMiddleName, 0, 1) . '.' : '';
     $addStudentFullName = $editStudentFirstName . ' ' . $middleNamePart . ' ' . $editStudentLastName;
 
-    $updateCourseSubject = "UPDATE student_table SET student_full_name = '$addStudentFullName', student_fName = '$editStudentFirstName', student_mName = '$editStudentMiddleName', student_lName = '$editStudentLastName', student_status = '$editStudentStatus', student_number = '$editStudentNumber', course_subject_id = '$editCourseSubjectId' WHERE student_id  = '$editStudentId'";
+    $updateCourseSubject = "UPDATE student_table SET student_full_name = '$addStudentFullName', student_fName = '$editStudentFirstName', student_mName = '$editStudentMiddleName', student_lName = '$editStudentLastName', student_gender = '$editStudentGender', student_status = '$editStudentStatus', student_number = '$editStudentNumber', course_subject_id = '$editCourseSubjectId' WHERE student_id  = '$editStudentId'";
 
     $updateCourseSubjectResult = $con->query($updateCourseSubject);
 
