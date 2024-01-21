@@ -343,7 +343,7 @@ $('#courseSectionTable').on('click', '.courseSubjectLink', function(e) {
             success: function(response) {
                 console.log(response);
                 // Optionally, you can redirect to the upload_grade.php page after setting the session
-                window.location.href = './new.php';
+                window.location.href = './upload_grade.php';
             },
             error: function(xhr, status, error) {
                 // Handle errors if any
