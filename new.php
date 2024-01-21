@@ -198,6 +198,7 @@ while ($ComponentRow = $ComponentTableResult->fetch_assoc()) {
                                     <th rowspan="2" class='border border-start-0'>Grade</th>
                                     <th rowspan="2" class='border border-start-0'>Percent</th>
                                     <th rowspan="2" class='border border-start-0'>Remark</th>
+                                    <th rowspan="3" class='border border-start-0'>Gender</th>
                                 </tr>
                                 <tr>
                                     <?php
@@ -605,6 +606,29 @@ var table = $('#uploadGradeTable').DataTable({
                 return '<td>' + Remarks + '</td>';
             }
         },
+        {
+            "target": 27,
+            "data": 4,
+            "render": function (data, type, row, meta) {
+                // Assuming "M" is for Male and "F" is for Female
+                return data === 'M' ? 'Male' : 'Female';
+            },
+            // "defaultContent": ""
+            "visible": false
+        },
+    ],
+    "initComplete": function () {
+        // Add sorting dropdown for student_gender
+        var select = $('<label for="genderFilter" class="mx-2">Gender Filter:</label><select id="genderFilter" class="form-select"><option value="">All Genders</option><option value="M">Male</option><option value="F">Female</option></select>')
+            .appendTo('#uploadGradeTable_length')
+            .on('change', function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                table.column(27).search(val, true, false, true).draw();
+            });
+    },
+    "order": [
+        [27, 'asc'],
+        [1, 'desc'],
     ],
     "columns": [
         { "data": 0 },

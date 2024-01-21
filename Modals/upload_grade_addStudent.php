@@ -24,12 +24,25 @@
                     <label for="addStudentNumber" class="form-label">Student Number</label>
                     <input type="text" class="form-control" name="addStudentNumber" id="addStudentNumber" placeholder="Student Number">
                 </div>
-                <div class="mb-3">
-                    <label for="addStudentStatus" class="form-label">Student Status</label>
-                    <select name="addStudentStatus" id="addStudentStatus" class="form-select">
-                        <option value="Regular">Regular Student</option>
-                        <option value="Irregular">Irregular Student</option>
-                    </select>
+                <div class="row">
+                    <div class="colo-6">
+                        <div class="mb-3">
+                            <label for="addStudentStatus" class="form-label">Student Status</label>
+                            <select name="addStudentStatus" id="addStudentStatus" class="form-select">
+                                <option value="Regular">Regular Student</option>
+                                <option value="Irregular">Irregular Student</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="colo-6">
+                        <div class="mb-3">
+                            <label for="addStudentGender" class="form-label">Student Status</label>
+                            <select name="addStudentGender" id="addStudentGender" class="form-select">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <input type="hidden" name="addCourseSubjectId" id="addCourseSubjectId" value="<?php echo $CourseSubjectIdSetted ?>">
 

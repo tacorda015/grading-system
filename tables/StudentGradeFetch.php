@@ -5,8 +5,6 @@
     $currentSelectedSessionId = isset($_GET['currentSelectedSessionId']) ? $_GET['currentSelectedSessionId'] : '';
     // Database connection info 
 
-    // error_log($currentSubjectId);
-
     $dbDetails = array( 
         'host' => 'localhost', 
         'user' => 'root', 
@@ -19,6 +17,7 @@
         SELECT 
             cSubject.course_subject_id, 
             student.student_full_name,
+            student.student_gender,
             CONCAT('[', GROUP_CONCAT(
                 JSON_OBJECT('component_value_id', cValue.component_value_id, 'student_grade', COALESCE(sGrade.student_grade, 0), 'student_id', student.student_id, 'component_value', cValue.component_value)
                 ORDER BY cValue.component_value_id
@@ -48,6 +47,7 @@
         array('db' => 'student_full_name', 'dt' => 1),
         array('db' => 'student_grades', 'dt' => 2),
         array('db' => 'total_component_value', 'dt' => 3),
+        array('db' => 'student_gender', 'dt' => 4),
     );
 
     // Include SQL query processing class 

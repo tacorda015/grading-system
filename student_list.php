@@ -284,15 +284,14 @@ var table = $('#studentListTable').DataTable( {
         }
     ],
     "initComplete": function () {
-    // Add sorting dropdown for student_gender
-    var select = $('<label for="genderFilter" class="mx-2">Gender Filter:</label><select id="genderFilter" class="form-select"><option value="">All Genders</option><option value="M">Male</option><option value="F">Female</option></select>')
-        .appendTo('#studentListTable_length')
-        .on('change', function () {
-            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-            table.column(4).search(val, true, false, true).draw();
-        });
-},
-
+        // Add sorting dropdown for student_gender
+        var select = $('<label for="genderFilter" class="mx-2">Gender Filter:</label><select id="genderFilter" class="form-select"><option value="">All Genders</option><option value="M">Male</option><option value="F">Female</option></select>')
+            .appendTo('#studentListTable_length')
+            .on('change', function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                table.column(4).search(val, true, false, true).draw();
+            });
+    },
     "order": [
         [1, 'asc'] // Default sorting by student_full_name in ascending order
     ]
