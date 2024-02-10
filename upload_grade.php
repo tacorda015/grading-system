@@ -160,11 +160,17 @@ while ($ComponentRow = $ComponentTableResult->fetch_assoc()) {
                     }
                     echo '
                         <li class="nav-item">
-                            <a class="nav-link" id="updateBtn" btn btn-outline-primary text-dark" data-bs-toggle="modal" data-bs-target="#updateSessionModal">
+                            <a class="nav-link" id="pdfBtn" href="./Complete_Grade.php">
+                                Print Grade
+                            </a>
+                        </li>
+                    ';
+                    echo '
+                        <li class="nav-item">
+                            <a class="nav-link" id="updateBtn" data-bs-toggle="modal" data-bs-target="#updateSessionModal">
                                 <i class="bi bi-file-earmark-ruled"></i> Update Session
                             </a>
                         </li>
-                        
                     ';
                     // <li class="nav-item">
                     //     <a class="nav-link btn btn-outline-primary text-dark" data-bs-toggle="modal" data-bs-target="#addSessionModal">
@@ -289,6 +295,7 @@ echo "var GradingSessionIdSetted = " . json_encode($GradingSessionIdSetted) . ";
 <script src="./node_modules/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
 <script src="./node_modules/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+
 <script src="./JS/StudentAdd.js"></script>
 <script src="./JS/GradingSessionEdit.js"></script>
 <script src="./JS/GradingComponentEdit.js"></script>
@@ -762,7 +769,8 @@ function handleEnterKeyOrBlur(element) {
             data: {
                 component_value_id: component_value_id,
                 componentId: componentId,
-                value: value
+                value: value,
+                CourseSubjectIdSetted: CourseSubjectIdSetted
             },
             success: function (response) {
                 if (response === "success") {

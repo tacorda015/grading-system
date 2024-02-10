@@ -212,6 +212,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                         $insertComponentValueResult = $con->query($insertComponentValue);
 
+                        $lastComponentValueId = mysqli_insert_id($con);
+
+                        $getStudentId = "SELECT student_id FROM student_table WHERE course_subject_id = '$lastInsertId'";
+                        $getStudentIdResult = $con->query($getStudentId);
+
+                        while($studentId = $getStudentIdResult->fetch_assoc()){
+
+                            $checkStudentGrade = "SELECT COUNT(*) AS NumberOfStudent FROM student_grade_table WHERE student_id = '{$studentId['student_id']}' AND component_value_id = '$lastComponentValueId'";
+
+                            $checkStudentGradeResult = $con->query($checkStudentGrade)->fetch_assoc();
+
+                            if($checkStudentGradeResult['NumberOfStudent'] != 0){
+                                continue;
+                            }else{
+                                $insertStudentGrade = "INSERT INTO student_grade_table (student_grade, student_id, component_value_id) VALUES (0, '{$studentId['student_id']}', '$lastComponentValueId')";
+                                $insertStudentGradeResult = $con->query($insertStudentGrade);
+                            }
+                        }
+
                         // Check if component values were inserted successfully
                         if (!$insertComponentValueResult) {
                             echo json_encode(['status' => 'error', 'message' => 'Adding Component Values Unsuccessful']);
