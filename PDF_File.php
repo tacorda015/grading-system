@@ -74,33 +74,33 @@ for ($start = 0; $start < $totalEntries; $start += $entriesPerPage) {
     $pdf->setFont('times', '', 10);
     $pdf->Cell(10, 7, "",);
     $pdf->Cell(42, 7, "COURSE", 0);
-    $pdf->Cell(58, 7, ": " . $courseResult['course_name'], 0);
+    $pdf->Cell(58, 7, ": " . ($courseResult['course_name'] ? : 'N/A'), 0);
     $pdf->Cell(33, 7, "DAY", 0);
-    $pdf->Cell(55, 7, ": " . $courseResult['course_subject_day'], 0);
+    $pdf->Cell(55, 7, ": " . ($courseResult['course_subject_day'] ? : 'N/A'), 0);
     $pdf->Cell(10, 7, "");
     $pdf->Ln();
 
     $pdf->Cell(10, 7, "");
     $pdf->Cell(42, 7, "SUBJECT", 0);
-    $pdf->Cell(58, 7, ": " . $courseResult['subject_name'], 0);
+    $pdf->Cell(58, 7, ": " . ($courseResult['subject_name'] ? : 'N/A'), 0);
     $pdf->Cell(33, 7, "TIME", 0);
-    $pdf->Cell(55, 7, ": " . $displayStartTime . ' - ' . $displayEndTime, 0);
+    $pdf->Cell(55, 7, ": " . ($displayStartTime . ' - ' . $displayEndTime ? : 'N/A'), 0);
     $pdf->Cell(10, 7, "");
     $pdf->Ln();
 
     $pdf->Cell(10, 7, "");
     $pdf->Cell(42, 7, "SUBJ TITLE", 0);
-    $pdf->Cell(58, 7, ": " . $courseResult['subject_name'], 0);
+    $pdf->Cell(58, 7, ": " . ($courseResult['subject_title'] ? : 'N/A'), 0);
     $pdf->Cell(33, 7, "ROOM", 0);
-    $pdf->Cell(55, 7, ": " . $courseResult['course_subject_room'], 0);
+    $pdf->Cell(55, 7, ": " . ($courseResult['course_subject_room'] ? : 'N/A'), 0);
     $pdf->Cell(10, 7, "");
     $pdf->Ln();
 
     $pdf->Cell(10, 7, "");
     $pdf->Cell(42, 7, "SY", 0);
-    $pdf->Cell(58, 7, ": " . $courseResult['sy_start'] . ' - ' . $courseResult['sy_end'], 0);
+    $pdf->Cell(58, 7, ": " . ($courseResult['sy_start'] . ' - ' . $courseResult['sy_end'] ? : 'N/A'), 0);
     $pdf->Cell(33, 7, "SEMESTER", 0);
-    $pdf->Cell(55, 7, ": " . $courseResult['course_subject_name'], 0);
+    $pdf->Cell(55, 7, ": " . ($courseResult['sy_semester'] ? : 'N/A'), 0);
     $pdf->Cell(10, 7, "");
     $pdf->Ln();
 
@@ -164,7 +164,7 @@ for ($start = 0; $start < $totalEntries; $start += $entriesPerPage) {
     $pdf->Cell(52, 0, "1.25", 0);
     $pdf->Cell(58, 0, "96-98%", 0);
     $pdf->setFont('times', 'B', 10);
-    $pdf->Cell(60, 0, "AILEEN N. BATIANCILA, LPT", 'B', 0, 'C');
+    $pdf->Cell(60, 0, ($courseResult['course_subject_teacher'] ? : 'N/A'), 'B', 0, 'C');
     $pdf->setFont('times', '', 10);
     $pdf->Cell(10, 0, "", 'R', 1);
     
@@ -196,7 +196,7 @@ for ($start = 0; $start < $totalEntries; $start += $entriesPerPage) {
     $pdf->Cell(52, 0, "2.50", 0);
     $pdf->Cell(58, 0, "81-83%", 0);
     $pdf->setFont('times', 'B', 10);
-    $pdf->Cell(60, 0, "REGAN P. LEGASPI, LPT", 'B', 0, 'C');
+    $pdf->Cell(60, 0, ($courseResult['course_subject_program_head'] ? : 'N/A'), 'B', 0, 'C');
     $pdf->setFont('times', '', 10);
     $pdf->Cell(10, 0, "", 'R', 1);
 
