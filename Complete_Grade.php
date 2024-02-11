@@ -375,6 +375,7 @@ function calculateFinalRemarks($final) {
 $(document).ready(function () {
     // Initialize DataTables with buttons
     var dataTable = $('#dataTable').DataTable({
+        "scrollX": true,
         "dom": '<"row"lfBtip>',
         "buttons": [
             {
