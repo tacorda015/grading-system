@@ -390,12 +390,18 @@ $(document).ready(function () {
                     console.log('jsonData:', jsonData);
 
                     // Create a form dynamically
-                    var form = $('<form method="post" target="_blank" action="sample.php"></form>');
+                    var form = $('<form method="post" target="_blank" action="PDF_File.php"></form>');
                     var input = $('<input type="hidden" name="jsonData" value="' + encodeURIComponent(jsonData) + '" />');
+                    var inputCourseSubjectId = $('<input type="hidden" name="courseSubjectId" value="' + encodeURIComponent('<?php echo $CourseSubjectIdSetted; ?>') + '" />');
+                    var inputGradingSessionId = $('<input type="hidden" name="gradingSessionId" value="' + encodeURIComponent('<?php echo $GradingSessionIdSetted; ?>') + '" />');
+                    var inputCourseSubjectName = $('<input type="hidden" name="courseSubjectName" value="' + encodeURIComponent('<?php echo $CourseSubjectNameSetted; ?>') + '" />');
 
 
                     // Append the input to the form
                     form.append(input);
+                    form.append(inputCourseSubjectId);
+                    form.append(inputGradingSessionId);
+                    form.append(inputCourseSubjectName);
 
                     // Log the form HTML to the console for debugging
                     console.log('form HTML:', form[0].outerHTML);

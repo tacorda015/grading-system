@@ -109,23 +109,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $addCourseName = ucfirst($_POST['addCourseName']);
     $addSubjectName = ucfirst($_POST['addSubjectName']);
+    $addSubjectTitle = ucfirst($_POST['addSubjectTitle']);
     $addSubjectTeacher = $_POST['addSubjectTeacher'];
+    $addCourseSubjectProgramHead = ucfirst($_POST['addCourseSubjectProgramHead']);
     $addTeacherId = $_POST['addTeacherId'];
     $addSyStart = $_POST['addSyStart'];
     $addSyEnd = $_POST['addSyEnd'];
+    $addSySemester = $_POST['addSySemester'];
     $addMeetingDay = $_POST['addMeetingDay'];
     $addMeetingTimeStart = $_POST['addMeetingTimeStart'];
     $addMeetingTimeEnd = $_POST['addMeetingTimeEnd'];
     $addSubjectRoom = $_POST['addSubjectRoom'];
 
-    if (empty($addCourseName) || empty($addSubjectName) || empty($addSubjectTeacher) || empty($addSyStart) || empty($addSyEnd) || empty($addMeetingDay) || empty($addMeetingTimeStart) || empty($addSubjectRoom)) {
+    if (empty($addCourseName) || empty($addSubjectName) || empty($addSubjectTeacher) || empty($addSyStart) || empty($addSyEnd) || empty($addMeetingDay) || empty($addMeetingTimeStart) || empty($addSubjectRoom) || empty($addSubjectTitle) || empty($addSySemester) || empty($addCourseSubjectProgramHead)) {
         echo json_encode(['status' => 'error', 'message' => 'All fields need to be filled up']);
         exit;
     }
     $addCourseSubjectName = $addCourseName . '/' . $addSubjectName;
 
     // Your existing code for inserting the course subject
-    $insertCourseSubject = "INSERT INTO course_subject_table (course_subject_name, course_name, subject_name, course_subject_teacher, teacher_id, sy_start, sy_end, course_subject_day, course_subject_time_start, course_subject_time_end, course_subject_room) VALUES ('$addCourseSubjectName', '$addCourseName', '$addSubjectName', '$addSubjectTeacher', '$addTeacherId', '$addSyStart', '$addSyEnd', '$addMeetingDay', '$addMeetingTimeStart', '$addMeetingTimeEnd', '$addSubjectRoom')";
+    $insertCourseSubject = "INSERT INTO course_subject_table (course_subject_name, course_name, subject_name, subject_title, course_subject_teacher, course_subject_program_head, teacher_id, sy_start, sy_end, sy_semester, course_subject_day, course_subject_time_start, course_subject_time_end, course_subject_room) VALUES ('$addCourseSubjectName', '$addCourseName', '$addSubjectName', '$addSubjectTitle', '$addSubjectTeacher', '$addCourseSubjectProgramHead', '$addTeacherId', '$addSyStart', '$addSyEnd', '$addSySemester', '$addMeetingDay', '$addMeetingTimeStart', '$addMeetingTimeEnd', '$addSubjectRoom')";
 
     $insertResult = $con->query($insertCourseSubject);
 

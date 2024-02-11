@@ -11,11 +11,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo "Invalid access to sample.php";
 }
 
-$SessionArray = $_SESSION['SessionArray'];
+// $SessionArray = $_SESSION['SessionArray'];
 
-$CourseSubjectIdSetted = $SessionArray['CourseSubjectIdSetted'];
-$GradingSessionIdSetted = $SessionArray['GradingSessionIdSetted'];  
-$CourseSubjectNameSetted = $SessionArray['CourseSubjectNameSetted'];
+// $CourseSubjectIdSetted = $SessionArray['CourseSubjectIdSetted'];
+// $GradingSessionIdSetted = $SessionArray['GradingSessionIdSetted'];  
+// $CourseSubjectNameSetted = $SessionArray['CourseSubjectNameSetted'];
+$CourseSubjectIdSetted = $_POST['courseSubjectId'];
+$GradingSessionIdSetted = $_POST['gradingSessionId'];
+$CourseSubjectNameSetted = $_POST['courseSubjectName'];
 
 $courseQuery = "SELECT * FROM course_subject_table WHERE course_subject_id = '$CourseSubjectIdSetted'";
 $courseResult = $con->query($courseQuery)->fetch_assoc();

@@ -98,18 +98,45 @@ $UserAccountId = $getUserData['account_id'];
         </div>
         <form method="post">
             <div class="modal-body">
-                <div class="mb-3">
-                    <label for="addCourseName" class="form-label">Course Name</label>
-                    <input type="text" class="form-control" name="addCourseName" id="addCourseName" placeholder="Course Name">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="addCourseName" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" name="addCourseName" id="addCourseName" placeholder="Course Name">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="addSubjectName" class="form-label">Subject Name</label>
+                            <input type="text" class="form-control" name="addSubjectName" id="addSubjectName" placeholder="Subject Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="addSubjectTitle" class="form-label">Subject Title</label>
+                            <input type="text" class="form-control" name="addSubjectTitle" id="addSubjectTitle" placeholder="Subject Title">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="addSySemester" class="form-label">Semester</label>
+                            <select class="form-select" name="addSySemester" id="addSySemester" class="form-select">
+                                <option value="1st Semester">1st Semester</option>
+                                <option value="2nd Semester">2nd Semester</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label for="addSubjectName" class="form-label">Subject Name</label>
-                    <input type="text" class="form-control" name="addSubjectName" id="addSubjectName" placeholder="Subject Name">
+                    <label for="addCourseSubjectProgramHead" class="form-label">Program Head/Adviser</label>
+                    <input type="text" class="form-control" name="addCourseSubjectProgramHead" id="addCourseSubjectProgramHead" placeholder="Program Head/Adviser">
                 </div>
                 <input type="hidden" name="addSubjectTeacher" id="addSubjectTeacher" value="<?php echo $fullName ?>">
                 <input type="hidden" name="addTeacherId" id="addTeacherId" value="<?php echo $UserAccountId ?>">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="addSyStart" class="form-label">School Year Start</label>
                             <select class="form-select" name="addSyStart" id="addSyStart" onchange="updateEndOptions()">
@@ -123,7 +150,7 @@ $UserAccountId = $getUserData['account_id'];
                             </select>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="addSyEnd" class="form-label">End</label>
                             <select class="form-select" name="addSyEnd" id="addSyEnd">
@@ -133,7 +160,7 @@ $UserAccountId = $getUserData['account_id'];
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="addMeetingDay" class="form-label">Day Meeting</label>
                             <select class="form-select" name="addMeetingDay" id="addMeetingDay" class="form-select">
@@ -147,7 +174,7 @@ $UserAccountId = $getUserData['account_id'];
                             </select>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="addSubjectRoom" class="form-label">Subject Room</label>
                             <input type="text" class="form-control" name="addSubjectRoom" id="addSubjectRoom" placeholder="Subject Room">
@@ -156,13 +183,13 @@ $UserAccountId = $getUserData['account_id'];
                 </div>
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="addMeetingTimeStart" class="form-label">Time Start</label>
                             <input type="time" name="addMeetingTimeStart" id="addMeetingTimeStart" class="form-control">
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="addMeetingTimeEnd" class="form-label">Time End</label>
                             <input type="time" name="addMeetingTimeEnd" id="addMeetingTimeEnd" class="form-control">
@@ -189,19 +216,46 @@ $UserAccountId = $getUserData['account_id'];
         </div>
         <div class="modal-body">
             <form method="post">
-                <div class="mb-3">
-                    <label for="editCourseName" class="form-label">Course Name</label>
-                    <input type="text" class="form-control" name="editCourseName" id="editCourseName" placeholder="Course Name">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="editCourseName" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" name="editCourseName" id="editCourseName" placeholder="Course Name">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="editSubjectName" class="form-label">Subject Name</label>
+                            <input type="text" class="form-control" name="editSubjectName" id="editSubjectName" placeholder="Subject Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="editSubjectTitle" class="form-label">Subject Title</label>
+                            <input type="text" class="form-control" name="editSubjectTitle" id="editSubjectTitle" placeholder="Subject Title">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mb-3">
+                            <label for="editSySemester" class="form-label">Semester</label>
+                            <select class="form-select" name="editSySemester" id="editSySemester" class="form-select">
+                                <option value="1st Semester">1st Semester</option>
+                                <option value="2nd Semester">2nd Semester</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label for="editSubjectName" class="form-label">Subject Name</label>
-                    <input type="text" class="form-control" name="editSubjectName" id="editSubjectName" placeholder="Subject Name">
+                    <label for="editCourseSubjectProgramHead" class="form-label">Program Head/Adviser</label>
+                    <input type="text" class="form-control" name="editCourseSubjectProgramHead" id="editCourseSubjectProgramHead" placeholder="Program Head/Adviser">
                 </div>
                 <input type="hidden" name="editSubjectTeacher" id="editSubjectTeacher" value="<?php echo $fullName ?>">
                 <input type="hidden" name="editTeacherId" id="editTeacherId" value="<?php echo $UserAccountId ?>">
                 <input type="hidden" name="editCourseSubjectId" id="editCourseSubjectId">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="editSyStart" class="form-label">School Year Start</label>
                             <select class="form-select" name="editSyStart" id="editSyStart" onchange="updateEndOptions()">
@@ -215,7 +269,7 @@ $UserAccountId = $getUserData['account_id'];
                             </select>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="editSyEnd" class="form-label">End</label>
                             <select class="form-select" name="editSyEnd" id="editSyEnd">
@@ -225,7 +279,7 @@ $UserAccountId = $getUserData['account_id'];
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="editMeetingDay" class="form-label">Day Meeting</label>
                             <select class="form-select" name="editMeetingDay" id="editMeetingDay" class="form-select">
@@ -239,7 +293,7 @@ $UserAccountId = $getUserData['account_id'];
                             </select>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="editSubjectRoom" class="form-label">Subject Room</label>
                             <input type="text" class="form-control" name="editSubjectRoom" id="editSubjectRoom" placeholder="Subject Room">
@@ -248,13 +302,13 @@ $UserAccountId = $getUserData['account_id'];
                 </div>
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="editMeetingTimeStart" class="form-label">Time Start</label>
                             <input type="time" name="editMeetingTimeStart" id="editMeetingTimeStart" class="form-control">
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="editMeetingTimeEnd" class="form-label">Time End</label>
                             <input type="time" name="editMeetingTimeEnd" id="editMeetingTimeEnd" class="form-control">
@@ -297,12 +351,6 @@ var table = $('#courseSectionTable').DataTable( {
                 return meta.row + 1; // meta.row is zero-based, so add 1 for the actual row number
             }
         },
-        // {
-        //     "targets": 1, // Assuming control number is in the second column (index 1)
-        //     "render": function (data, type, row, meta) {
-        //         return '<a href="./upload_grade.php?course_subject_id=' + row[0] + '&course_subject_name=' + encodeURIComponent(row[1]) + '" class="courseSubjectLink" data-course-subject-id="' + data + '">' + data + '</a>';
-        //     }
-        // },
         {
             "targets": 1,
             "render": function (data, type, row, meta) {
