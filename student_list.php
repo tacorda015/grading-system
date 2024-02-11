@@ -251,6 +251,7 @@ $UserAccountId = $getUserData['account_id'];
 var table = $('#studentListTable').DataTable( { 
     "processing": true,
     "serverSide": true,
+    "scrollX": true,
     "ajax": {
         "url": "./tables/StudentListFetch.php?UserAccountId=<?php echo $UserAccountId; ?>",
         "type": "GET",
