@@ -129,6 +129,10 @@ while ($ComponentRow = $ComponentTableResult->fetch_assoc()) {
                     <div class="d-flex gap-3 flex-md-row flex-column justify-content-between">
 
                         <div class="d-flex gap-2 flex-sm-row flex-column">
+                            <a href="./course_subject.php" class="btn btn-primary">
+                                <i class="bi bi-arrow-left-circle"></i> Back
+                            </a>
+                            
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentCourseModal">
                             <i class="bi bi-person-add"></i> Student
                             </button>
