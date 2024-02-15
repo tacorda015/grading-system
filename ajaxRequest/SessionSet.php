@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $getGradingSessionData = "SELECT * FROM grading_session_table WHERE course_subject_id = '$courseSubjectId'";
     if($sessionId != 'NULL'){
-        $getGradingSessionData .= "AND grading_session_id = '$sessionId'";
+        $getGradingSessionData .= " AND grading_session_id = '$sessionId'";
     }
     $getGradingSessionResult = $con->query($getGradingSessionData);
     

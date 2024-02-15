@@ -382,6 +382,7 @@ $('#courseSectionTable').on('click', '.courseSubjectLink', function(e) {
 
         // Get the data-course-subject-id attribute
         var courseSubjectId = $(this).data('course-subject-id');
+        console.log(courseSubjectId);
 
         // Make an AJAX request to set the session
         $.ajax({
